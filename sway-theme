@@ -10,9 +10,14 @@ title_align center
 gaps inner 10
 gaps outer 0
 
-## SwayFX-only directive (rounded corners) -- requires the swayfx binary,
-## takes effect after logging back in under it.
+## SwayFX-only directives -- require the swayfx binary, take effect after
+## logging back in under it.
 corner_radius 10
+
+## Animates window open/close only -- SwayFX has no move/resize/
+## workspace-switch animation (unlike Hyprland). 150ms: fast enough to
+## read as "snappy," not so fast it's imperceptible.
+animation_duration_ms 150
 
 ##-- Colors ------------------------------
 set $sway_cl_col_bg #2D353B

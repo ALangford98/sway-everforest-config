@@ -39,6 +39,7 @@ set $backlight ~/.config/sway/scripts/brightness
 set $screenshot ~/.config/sway/scripts/screenshot
 set $lockscreen ~/.config/sway/scripts/current_lock
 set $colorpicker ~/.config/sway/scripts/colorpicker
+set $focus_output_cycle ~/.config/sway/scripts/focus-output-cycle
 set $files thunar
 set $editor geany
 set $browser firefox
@@ -131,6 +132,18 @@ bindsym $alt+Control+l 			exec "$lockscreen"
 # "local" semantics bspwm had.
 bindsym Control+$alt+Left 		workspace prev_on_output
 bindsym Control+$alt+Right 		workspace next_on_output
+
+# -- Display focus cycling --
+# Moves keyboard focus to the next/previous monitor (not a workspace switch --
+# your workspaces/windows on each screen stay exactly where they are, this
+# just moves which screen "has control"). Uses scripts/focus-output-cycle
+# rather than sway's built-in `focus output up|down`: tested against this
+# Y-shape 3-monitor layout, up/down did nothing at all from the laptop
+# despite the outputs' horizontal spans overlapping, so a plain ordered
+# left-to-right cycle is used instead -- reliable regardless of the
+# physical arrangement.
+bindsym Control+$alt+Up 		exec $focus_output_cycle prev
+bindsym Control+$alt+Down 		exec $focus_output_cycle next
 
 ## -- Sway --
 

@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+## Cycles keyboard focus between outputs, in a fixed left-to-right order
+## (by x position) rather than sway's built-in spatial `focus output
+## up|down|left|right` -- which, tested empirically against this 3-monitor
+## Y-shape layout, simply does nothing for up/down despite the outputs'
+## horizontal spans overlapping. An explicit ordered cycle sidesteps
+## whatever that spatial algorithm requires and just always works,
+## regardless of the physical arrangement.
+##
+## Usage: focus-output-cycle next|prev
+
+direction="${1:?usage: focus-output-cycle next|prev}"
+
+swaymsg -t get_outputs -r | python3 -c "
+import json, sys
+
+direction = '$direction'
+outputs = json.load(sys.stdin)
+outputs = [o for o in outputs if o.get('active')]
+outputs.sort(key=lambda o: o['rect']['x'])
+
+names = [o['name'] for o in outputs]
+focused_idx = next((i for i, o in enumerate(outputs) if o.get('focused')), 0)
+
+step = 1 if direction == 'next' else -1
+target = names[(focused_idx + step) % len(names)]
+print(target)
+" | xargs -r swaymsg focus output
