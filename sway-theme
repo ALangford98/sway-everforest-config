@@ -15,9 +15,10 @@ gaps outer 0
 corner_radius 10
 
 ## Animates window open/close only -- SwayFX has no move/resize/
-## workspace-switch animation (unlike Hyprland). 150ms: fast enough to
-## read as "snappy," not so fast it's imperceptible.
-animation_duration_ms 150
+## workspace-switch animation (unlike Hyprland). 150ms measured as real
+## but imperceptible (confirmed via burst-captured screenshots of a
+## window opening); 300ms is the "snappy but not immediate" sweet spot.
+animation_duration_ms 300
 
 ##-- Colors ------------------------------
 set $sway_cl_col_bg #2D353B
