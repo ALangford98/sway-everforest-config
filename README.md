@@ -1,16 +1,23 @@
 # sway config
 
 Personal sway config, ported over from a bspwm+polybar setup. Tracked in
-git so it can be carried to another machine and so today's fully-tuned
-state ("everforest-baseline") is always a checkout away, even after
-tinkering with themes.
+git ([github.com/ALangford98/sway-everforest-config](https://github.com/ALangford98/sway-everforest-config))
+so it can be carried to another machine and so today's fully-tuned state
+("everforest-baseline") is always a checkout away, even after tinkering
+with themes.
 
 ## Porting to a new machine
 
 Only tested for Arch/Archcraft-to-Arch/Archcraft moves.
 
-1. Copy or clone this whole directory to `~/.config/sway` on the new
-   machine.
+1. Clone this repo to `~/.config/sway` on the new machine:
+
+       git clone https://github.com/ALangford98/sway-everforest-config.git ~/.config/sway
+
+   (No GitHub access on that machine? Copying the directory over some
+   other way -- USB, `scp`, `rsync` -- works too; it just won't be a git
+   checkout, so `git pull` and `scripts/restore-baseline` won't apply
+   until you `git init` and point it at the remote yourself.)
 2. Run `~/.config/sway/install.sh`. It installs every package this setup
    depends on (waybar, mako, rofi, the terminals, greenclip, autotiling-rs,
    swayfx, the Archcraft GTK/icon/cursor/font packages, etc.) via

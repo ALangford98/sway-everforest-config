@@ -7,12 +7,15 @@ set -euo pipefail
 ## Assumes Arch/Archcraft, this directory is already at ~/.config/sway, and
 ## yay is available for the handful of AUR packages. Safe to re-run --
 ## pacman/yay skip anything already installed.
+##
+## On a new machine, get it there first with:
+##   git clone https://github.com/ALangford98/sway-everforest-config.git ~/.config/sway
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 
 if [[ "$DIR" != "$HOME/.config/sway" ]]; then
 	echo "This script expects to be run from ~/.config/sway (found it at $DIR)." >&2
-	echo "Copy/clone this whole directory to ~/.config/sway on the new machine first." >&2
+	echo "git clone https://github.com/ALangford98/sway-everforest-config.git ~/.config/sway first." >&2
 	exit 1
 fi
 
