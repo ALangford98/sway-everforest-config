@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+## Cycles through the named color themes (default -> light -> everforest ->
+## default) via theme.sh, bound to the waybar "custom/themes" module's
+## left-click. Reads/writes theme/.theme_name (written by theme.sh itself
+## on every successful apply) so the cycle picks up wherever the last
+## applied theme -- from this button, the lightmode toggle, or the CLI --
+## left off, instead of assuming a fixed starting point.
+##
+## --pywal is intentionally left out of the cycle: it's a random,
+## wallpaper-derived theme rather than a named one, and having it show up
+## on a routine click is what silently overwrote the everforest theme
+## before. It's still reachable directly: theme.sh --pywal, or right-click
+## on this module.
+
+STATE_FILE="$HOME/.config/sway/theme/.theme_name"
+current="$(cat "$STATE_FILE" 2>/dev/null || true)"
+
+case "$current" in
+	default)    next=light      ;;
+	light)      next=everforest ;;
+	everforest) next=default    ;;
+	*)          next=everforest ;;
+esac
+
+exec "$HOME/.config/sway/theme/theme.sh" "--$next"

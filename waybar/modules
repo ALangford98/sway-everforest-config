@@ -1,0 +1,271 @@
+// Copyright (C) 2020-2026 Aditya Shakya <adi1090x@gmail.com>
+//
+// Waybar modules configuration -----------------------------
+
+{
+	// waybar-backlight
+    "backlight": {
+		"interval": 2,
+		"align": 0,
+		"rotate": 0,
+        //"device": "amdgpu_bl0",
+        "format": "{icon} {percent}%",
+        "format-icons": ["", "", "", ""],
+        "on-click": "",
+        "on-click-middle": "",
+        "on-click-right": "",
+        "on-update": "",
+        //"on-scroll-up": "light -A 5%",
+        //"on-scroll-down": "light -U 5%",
+        "smooth-scrolling-threshold": 1,
+    },
+
+	// waybar-battery
+    "battery": {
+		"interval": 60,
+		"align": 0,
+		"rotate": 0,
+		//"bat": "BAT1",
+		//"adapter": "ACAD",
+		"full-at": 100,
+		"design-capacity": false,
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-full": "{icon} Full",
+        //"format-good": "",
+        "format-alt": "{icon} {time}",
+        "format-icons": ["", "", "", "", ""],
+        "format-time": "{H}h {M}min",
+        "tooltip": true,
+    },
+
+	// waybar-bluetooth
+    "bluetooth": {
+        //"controller": "controller1",
+        //"format-device-preference": "",
+        "format": " {status}",
+        "format-on": " {status}",
+        "format-off": " {status}",
+        "format-disabled": " {status}",
+        "format-connected": " {device_alias}",
+        "format-connected-battery": " {device_alias}, {device_battery_percentage}%",
+        "tooltip": true,
+        "tooltip-format": "{controller_alias}\t{controller_address}",
+        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+        "on-click": "~/.config/sway/scripts/rofi_bluetooth",
+        "on-click-right": "blueman-manager",
+    },
+
+	// waybar-clock
+    "clock": {
+		"interval": 60,
+		"align": 0,
+		"rotate": 0,
+        "tooltip-format": "<big>{:%B %Y}</big>\n<tt><small>{calendar}</small></tt>",
+        "format": " {:%I:%M %p}",
+        "format-alt": " {:%a %b %d, %G}"
+    },
+
+	// waybar-cpu
+	// Ported from polybar's default layout (modules-left = bspwm sep cpu
+	// memory filesystem in bspwm/themes/everforest/polybar/config.ini).
+    "cpu": {
+        "interval": 2,
+        "format": " {usage}%",
+    },
+
+	// waybar-memory
+    "memory": {
+        "interval": 3,
+        "format": " {used:0.1f}GiB",
+    },
+
+	// waybar-disk
+	// Mirrors polybar's filesystem module (mount-0 = /, label " %free%").
+    "disk": {
+        "interval": 10,
+        "path": "/",
+        "format": "󰋊 {free} free",
+    },
+
+	// waybar-custom
+	// Left-click cycles the named themes (default -> light -> everforest ->
+	// ...) via scripts/theme-cycle. Right-click still reaches --pywal
+	// (random, wallpaper-derived) directly, but it's no longer what a plain
+	// click does -- that's what silently replaced the everforest theme with
+	// a random one before.
+    "custom/themes": {
+        "format": "",
+        "tooltip": false,
+        "on-click": "$HOME/.config/sway/scripts/theme-cycle",
+        "on-click-right": "$HOME/.config/sway/theme/theme.sh --pywal",
+    },
+
+    "custom/lightmode": {
+         "exec": "$HOME/.config/sway/waybar/lightmode",
+         "interval": 1,
+         "format": "{}",
+         "tooltip": false,
+         "on-click": "$HOME/.config/sway/waybar/lightmode --toggle",
+    },
+
+	// waybar-idle-inhibitor
+    "idle_inhibitor": {
+         "format": "{icon}",
+         "format-icons": {
+             "activated": "",
+             "deactivated": ""
+         },
+         "timeout": 30
+    },
+
+	// waybar-spotify
+    "custom/spotify": {
+        "exec": "$HOME/.config/sway/waybar/spotify",
+        "interval": 1,
+        "format": "{}",
+        "tooltip": true,
+        "max-length": 30,
+        "on-click": "playerctl -p spotify play-pause",
+        "on-click-middle": "playerctl -p spotify previous",
+        "on-click-right": "playerctl -p spotify next",
+        "on-scroll-up": "playerctl -p spotify position 05+",
+        "on-scroll-down": "playerctl -p spotify position 05-",
+        "smooth-scrolling-threshold": 1,
+    },
+
+	// waybar-mpd
+    "mpd": {
+        "interval": 2,
+        "unknown-tag": "N/A",
+        "format": "{artist} - {title} {stateIcon}",
+        "format-disconnected": " Disconnected",
+        "format-paused": "{artist} - {title} {stateIcon}",
+        "format-stopped": "Stopped ",
+        "state-icons": {
+            "paused": "",
+            "playing": ""
+        },
+        "tooltip-format": "MPD (connected)",
+        "tooltip-format-disconnected": "MPD (disconnected)",
+        "on-click": "mpc toggle",
+        "on-click-middle": "alacritty --class 'alacritty-float,alacritty-float' --config-file ~/.config/sway/alacritty/alacritty.toml -e ncmpcpp",
+        "on-click-right": "mpc next",
+        "on-update": "",
+        "on-scroll-up": "mpc seek +5%",
+        "on-scroll-down": "mpc seek -5%",
+        "smooth-scrolling-threshold": 1,
+    },
+
+	// waybar-network
+    "network": {
+		"interval": 5,
+        //"interface": "wlan*", // (Optional) To force the use of this interface, set it for netspeed to work
+        "format-wifi": " {essid}",
+        "format-ethernet": " {ipaddr}/{cidr}",
+        "format-linked": " {ifname} (No IP)",
+        "format-disconnected": "睊 Disconnected",
+        "format-disabled": "睊 Disabled",
+        "format-alt": " {bandwidthUpBits} |  {bandwidthDownBits}",
+        "tooltip-format": " {ifname} via {gwaddr}",
+        "on-click-right": "~/.config/sway/scripts/rofi_network",
+    },
+
+	// waybar-pulseaudio
+    "pulseaudio": {
+        //"format": "{volume}% {icon} {format_source}",
+        "format": "{icon} {volume}%",
+        "format-muted": " Mute",
+        "format-bluetooth": " {volume}%",
+        "format-bluetooth-muted": " Mute",
+        "format-source": " {volume}%",
+        "format-source-muted": " Mute",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "scroll-step": 5.0,
+        "on-click": "pulsemixer --toggle-mute",
+        "on-click-right": "pulsemixer --toggle-mute",
+        "smooth-scrolling-threshold": 1,
+    },
+
+	// waybar-sway-mode
+    "sway/mode": {
+        "format": "<span style=\"italic\">{}</span>"
+    },
+
+	// waybar-sway-window
+    "sway/window": {
+        "format": "{}",
+        "max-length": 40,
+        "icon": false,
+    },
+
+	// waybar-sway-workspaces
+	// Desktop presets ported from bspwm's polybar config (ws-icon-0..8 in
+	// ~/.config/bspwm/themes/everforest/polybar/modules.ini): 3 named
+	// workspaces per monitor, bound to their outputs in ~/.config/sway/config.
+	// all-outputs is false so each screen's bar shows only its own 3 (like
+	// polybar's per-monitor bars). persistent-workspaces pins all 9 names so
+	// they show even when empty, matching polybar's pin-workspaces = true --
+	// sway workspaces are otherwise ephemeral (destroyed once empty and
+	// unfocused), unlike bspwm desktops. NOTE: unlike the output binding in
+	// ~/.config/sway/config (which matches by make/model/serial), waybar's
+	// persistent-workspaces only accepts output *names* -- if a port name
+	// shifts (dock/dongle), update the names below to match.
+    "sway/workspaces": {
+         "disable-scroll": false,
+         "disable-click": false,
+         "all-outputs": false,
+         "persistent-workspaces": {
+             "term": ["eDP-1"],
+             "chat": ["eDP-1"],
+             "media": ["eDP-1"],
+             "pm": ["HDMI-A-1"],
+             "office": ["HDMI-A-1"],
+             "settings": ["HDMI-A-1"],
+             "ide1": ["DP-1"],
+             "ide2": ["DP-1"],
+             "term2": ["DP-1"]
+         },
+         "format": "{icon}",
+         "format-icons": {
+             "term": "",
+             "chat": "",
+             "media": "",
+             "pm": "",
+             "office": "",
+             "ide1": "",
+             "ide2": "",
+             "settings": "󰒓",
+             "term2": "",
+             //"urgent": "",
+             //"focused": "",
+             //"default": ""
+         },
+        "smooth-scrolling-threshold": 1,
+        "disable-scroll-wraparound": false,
+        "enable-bar-scroll": false,
+        "disable-markup": false,
+        "current-only": false,
+    },
+
+	// waybar-tray
+    "tray": {
+        "icon-size": 16,
+        "spacing": 10
+    }
+}

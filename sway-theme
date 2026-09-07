@@ -1,0 +1,48 @@
+##-- Style -------------------------------
+default_border pixel 2
+default_floating_border pixel 2
+smart_borders off
+
+titlebar_border_thickness 2
+titlebar_padding 6 6
+title_align center
+
+gaps inner 10
+gaps outer 0
+
+## SwayFX-only directive (rounded corners) -- requires the swayfx binary,
+## takes effect after logging back in under it.
+corner_radius 10
+
+##-- Colors ------------------------------
+set $sway_cl_col_bg #2D353B
+set $sway_cl_col_fg #D3C6AA
+set $sway_cl_col_in #DBBC7F
+set $sway_cl_col_afoc #A7C080
+set $sway_cl_col_ifoc #A7C080
+set $sway_cl_col_ufoc #3f4a52
+set $sway_cl_col_urgt #E67E80
+set $sway_cl_col_phol #2D353B
+
+# class                  border              backgr.             text              indicator         child_border
+client.focused           $sway_cl_col_afoc   $sway_cl_col_afoc   $sway_cl_col_bg   $sway_cl_col_in   $sway_cl_col_afoc
+client.focused_inactive  $sway_cl_col_ifoc   $sway_cl_col_ifoc   $sway_cl_col_bg   $sway_cl_col_in   $sway_cl_col_ifoc
+client.unfocused         $sway_cl_col_ufoc   $sway_cl_col_ufoc   $sway_cl_col_fg   $sway_cl_col_in   $sway_cl_col_ufoc
+client.urgent            $sway_cl_col_urgt   $sway_cl_col_urgt   $sway_cl_col_fg   $sway_cl_col_in   $sway_cl_col_urgt
+client.placeholder       $sway_cl_col_phol   $sway_cl_col_phol   $sway_cl_col_fg   $sway_cl_col_in   $sway_cl_col_phol
+client.background        $sway_cl_col_bg
+
+##-- Gtk themes ------------------------------
+set $sway_gtk_theme Everforest-Dark-Medium
+set $sway_icon_theme Zafiro-Green-Dark
+set $sway_cursor_theme Qogirr
+set $sway_fonts Noto Sans 9
+
+set $gnome-schema org.gnome.desktop.interface
+
+exec_always {
+    gsettings set $gnome-schema gtk-theme    $sway_gtk_theme
+    gsettings set $gnome-schema icon-theme   $sway_icon_theme
+    gsettings set $gnome-schema cursor-theme $sway_cursor_theme
+    gsettings set $gnome-schema font-name    $sway_fonts
+}

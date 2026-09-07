@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+## Clipboard history picker (greenclip + rofi), ported from bspwm's
+## sxhkdrc ("Open extended clipboard (Greenclip)", bound there to
+## super+ctrl+v -- kept as the same binding here, see ~/.config/sway/config).
+## greenclip's daemon is started in ~/.config/sway/scripts/startup.
+
+exec rofi -modi "clipboard:greenclip print" -show clipboard -run-command "{cmd}"

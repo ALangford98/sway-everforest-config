@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+## Restores ~/.config/sway to the `everforest-baseline` git checkpoint --
+## "come back to this one" after clicking through the waybar theme-cycle
+## button (or any other tinkering) leaves things somewhere else.
+##
+## Two steps, in order:
+##   1. `git checkout` restores every tracked file's *content* (colors,
+##      bar layout, keybindings, corner_radius, everything) back to the
+##      baseline commit. This alone doesn't change anything on screen --
+##      it only rewrites files on disk.
+##   2. Re-running theme.sh for whichever theme the restored state names
+##      (theme/.theme_name) reapplies that theme's full pipeline: writes
+##      every consumer config from the (now-restored) theme file, reloads
+##      sway, restarts waybar/mako, signals kitty, repaints the wallpaper.
+##      That's what actually makes the restore visible live, not just on
+##      disk.
+
+DIR="$HOME/.config/sway"
+cd "$DIR"
+
+if ! git rev-parse --verify --quiet everforest-baseline >/dev/null; then
+	echo "No 'everforest-baseline' tag found in $DIR -- nothing to restore to." >&2
+	exit 1
+fi
+
+git checkout everforest-baseline -- .
+
+theme_name="$(cat theme/.theme_name 2>/dev/null || echo everforest)"
+bash "$DIR/theme/theme.sh" "--$theme_name"

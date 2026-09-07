@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+## Copyright (C) 2020-2026 Aditya Shakya <adi1090x@gmail.com>
+##
+## Autostart Programs ---------------------------------------
+
+## Helpers
+run() {
+	if ! pgrep -x "$1" >/dev/null 2>&1; then
+		"$@" &
+	fi
+}
+
+run_bg() {
+	("$@" >/dev/null 2>&1 &)
+}
+
+restart() {
+	local proc="$1"
+	shift
+
+	if pgrep -x "$proc" >/dev/null 2>&1; then
+		pkill -TERM -x "$proc"
+		while pgrep -x "$proc" >/dev/null 2>&1; do
+			sleep 0.1
+		done
+	fi
+
+	"$@" >/dev/null 2>&1 &
+}
+
+## Core UI Elements
+restart waybar ~/.config/sway/scripts/statusbar
+restart mako   ~/.config/sway/scripts/notifications
+
+## Applets & Services
+run nm-applet --indicator
+run mpd
+
+## Autotiling -- alternates new-window split direction (horizontal/vertical)
+## based on container aspect ratio, matching bspwm's automatic split
+## behavior. Sway has no built-in equivalent (mod+h/v/g still set split
+## direction manually); this just automates picking one on each new window.
+run autotiling-rs
+
+## Greenclip daemon (clipboard history) -- see scripts/rofi_clipboard and
+## mod+ctrl+v in ~/.config/sway/config. Ported from bspwmrc's
+## `pgrep -x greenclip > /dev/null || greenclip daemon &`.
+run greenclip daemon
+
+## Wallpaper shuffler -- cycles a random image from the Woods directory
+## onto every output every 5 minutes. Ported from bspwm's
+## wallpaper-shuffle.sh. pkill+relaunch (not the `run` helper above) since
+## `run` dedupes via `pgrep -x`, an exact-process-name match that doesn't
+## reliably catch a script invoked as `bash <path>`; bspwmrc used the same
+## pkill -f approach for this script for the same reason.
+pkill -f wallpaper-shuffle.sh 2>/dev/null || true
+bash ~/.config/sway/scripts/wallpaper-shuffle.sh &
+
+## Polkit
+#run /usr/lib/xfce-polkit/xfce-polkit
+if [[ ! `pidof xfce-polkit` ]]; then
+	/usr/lib/xfce-polkit/xfce-polkit &
+fi
+
